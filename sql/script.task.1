@@ -1,0 +1,10 @@
+script.task.1
+
+select e.first_name, e.last_name, j.job_title, jh.cnt job_transfer from employees e
+	join departments d on e.department_id = d.department_id
+	join jobs j on j.job_id = e.job_id
+	join locations l on d.location_id = l.location_id
+	join countries c on l.country_id = c.country_id
+	join regions r on c.region_id = r.region_id	
+	join (select employee_id, count(employee_id) cnt from job_history group by employee_id) jh on e.employee_id = jh.employee_id 
+	where r.region_name in ('Восточная европа','Северная америка') and jh.cnt >=2;
